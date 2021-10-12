@@ -8,11 +8,12 @@ import com.example.mediaplayer.other.Constants
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 
 class MusicPlayerNotificationListener(
-    val musicService: MusicServices
+    private val musicService: MusicServices
 ): PlayerNotificationManager.NotificationListener {
+    // когда пользоваетель уберает уведомление (отменяет)
     override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
         musicService.apply {
-            stopForeground(true)
+            stopForeground(true) // удаление уведомление
             isForegroundService = false
             stopSelf()
         }
@@ -25,11 +26,13 @@ class MusicPlayerNotificationListener(
     ) {
         super.onNotificationPosted(notificationId, notification, ongoing)
         musicService.apply {
+            // если службы не переднего плана
             if (ongoing && !isForegroundService) {
                 ContextCompat.startForegroundService(
                     this,
                     Intent(applicationContext, this::class.java)
                 )
+                //сервенсая службы переднего плана
                 startForeground(Constants.NOTIFICATION_ID, notification)
                 isForegroundService = true
             }

@@ -12,5 +12,6 @@ var hasBeenHandled = false
             data
         }
     }
+    // функция нужна для получение данных , которые уже обработаны
     fun peekContent() = data
 }

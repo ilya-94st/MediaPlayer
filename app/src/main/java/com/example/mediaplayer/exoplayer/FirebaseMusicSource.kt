@@ -16,15 +16,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+// получаем  все песни из firestore
 class FirebaseMusicSource @Inject constructor(var musicDatabase: MusicDatabase) {
 
+    private val onReadyListener = mutableListOf<(Boolean) -> Unit>() // слушатель нужен для того чтобы понять загружены ли песни и потом только выполнять последующий код
+// список песене
     var songs = emptyList<MediaMetadataCompat>()
 
-    suspend fun fetchMediaData() = withContext(Dispatchers.IO){
-state = State.STATE_INITIALIZING
+    // функция по считыванию данных из firebase
+    suspend fun fetchMediaData() = withContext(Dispatchers.IO){ // функция которая получает все объекты из firebase
+state = State.STATE_INITIALIZING // устанавливаем состояние на иницилизирование т.к наша музыка будет загружаться
         val allSongs = musicDatabase.getAllSongs()
         songs = allSongs.map {song->
-            MediaMetadataCompat.Builder()
+            Builder()
                 .putString(METADATA_KEY_ARTIST, song.subtitle)
                 .putString(METADATA_KEY_MEDIA_ID, song.mediaId)
                 .putString(METADATA_KEY_TITLE, song.title)
@@ -36,9 +40,10 @@ state = State.STATE_INITIALIZING
                 .putString(METADATA_KEY_DISPLAY_DESCRIPTION, song.subtitle)
                 .build()
         }
-        state = State.STATE_INITIALIZED
+        state = State.STATE_INITIALIZED // иницилизировано
     }
 
+    // чтобы каждый раз песня переключалась на следующую когда она закончиться
     fun asMediaSource(dataSourceFactory: DefaultDataSourceFactory) : ConcatenatingMediaSource {
         val concatenatingMediaSource = ConcatenatingMediaSource()
         songs.forEach{song->
@@ -60,28 +65,31 @@ state = State.STATE_INITIALIZING
         MediaBrowserCompat.MediaItem(desc, FLAG_PLAYABLE)
     }.toMutableList()
 
-    private val onReadyListener = mutableListOf<(Boolean) -> Unit>()
 
+// процесс определения состояние музыки при ее загрузки из firestore
     private var state: State = State.STATE_CREATED
     set(value) {
-        if (value == State.STATE_INITIALIZING || value == State.STATE_ERROR) {
+        if (value == State.STATE_INITIALIZED || value == State.STATE_ERROR) { // если наша музыка иницилизирована или произошла ошибка значит процесс завершен и больше нечего не произайдет
+           // если первое условие будет выполнено то мы знаем что находимся в одном потоке
             synchronized(onReadyListener){
-                field = value
+                field = value // поле ссылается на текущее состояние и мы ему присваем новое состояние
                 onReadyListener.forEach{listener->
-                    listener(state == State.STATE_INITIALIZED)
+                    listener(state == State.STATE_INITIALIZED) // если состояние иницилизировано то вызываем true иначе error и вызываем false
                 }
             }
-        } else {
+        } else { // иначе наше состояние музыки будет  STATE_INITIALIZING будет иницилизироваться
             field = value
         }
     }
     fun whenReady(action : (Boolean) -> Unit) : Boolean {
         if(state == State.STATE_CREATED || state == State.STATE_INITIALIZING) {
-            onReadyListener += action
-            return false
+            // когда источник музыки state == State.STATE_CREATED
+            onReadyListener += action // мы добавляем его
+            return false // в этот момент наш источник музыки не готов
         } else {
+            // переходим в этот блок в случае если лябда функция получила false
             action(state == State.STATE_INITIALIZED)
-            return true
+            return true // сдесь источник музыки готов
         }
     }
 
