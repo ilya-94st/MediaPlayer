@@ -134,6 +134,7 @@ class MusicServices: MediaBrowserServiceCompat()  { // унаследуемся 
         result: Result<MutableList<MediaBrowserCompat.MediaItem>>
     ) {
        when(parentId){
+           //индификатор подписки
            Constants.MEDIA_ROOT_ID -> {
                val resultsSets = firebaseMusicSource.whenReady { isInitialized->
                    if(isInitialized){
@@ -146,6 +147,7 @@ class MusicServices: MediaBrowserServiceCompat()  { // унаследуемся 
                    } else {
                        // иначе если наша музыка готова но не инецелизирована тогда мы получим просто null
                        result.sendResult(null)
+                       mediaSession.sendSessionEvent(Constants.NETWORK_ERROR, null)
                    }
                }
                // если результат не подготовлен
