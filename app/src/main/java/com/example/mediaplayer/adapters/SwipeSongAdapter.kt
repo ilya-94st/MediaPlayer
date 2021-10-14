@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mediaplayer.databinding.ItemsSongAdapterBinding
+import com.example.mediaplayer.databinding.SwipeItemsBinding
 import com.example.mediaplayer.date.entinities.Song
 
 class SwipeSongAdapter(): RecyclerView.Adapter<SwipeSongAdapter.SongViewHolder>() {
 
-    inner class SongViewHolder(var binding: ItemsSongAdapterBinding): RecyclerView.ViewHolder(binding.root)
+    inner class SongViewHolder(var binding: SwipeItemsBinding): RecyclerView.ViewHolder(binding.root)
 
     private val diffCallback = object : DiffUtil.ItemCallback<Song>() {
         override fun areItemsTheSame(oldItem: Song, newItem: Song): Boolean {
@@ -24,10 +24,12 @@ class SwipeSongAdapter(): RecyclerView.Adapter<SwipeSongAdapter.SongViewHolder>(
 
     private val differ = AsyncListDiffer(this, diffCallback)
 
-    fun submitList(list: List<Song>) = differ.submitList(list)
+    var songs: List<Song>
+        get() = differ.currentList
+        set(value) = differ.submitList(value)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
-        val binding = ItemsSongAdapterBinding.inflate(LayoutInflater.from(parent.context), parent , false)
+        val binding = SwipeItemsBinding.inflate(LayoutInflater.from(parent.context), parent , false)
         return SongViewHolder(binding)
     }
 

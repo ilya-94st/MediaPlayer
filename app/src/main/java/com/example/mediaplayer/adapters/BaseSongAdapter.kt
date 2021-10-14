@@ -6,9 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.example.mediaplayer.date.entinities.Song
 
 abstract class BaseSongAdapter(private val layoutId: Int) : RecyclerView.Adapter<BaseSongAdapter.SongViewHolder>() {
+
 
     inner class SongViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
