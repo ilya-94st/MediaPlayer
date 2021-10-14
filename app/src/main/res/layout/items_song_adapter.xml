@@ -37,4 +37,5 @@
         app:layout_constraintStart_toEndOf="@+id/ivItemImage"
         app:layout_constraintTop_toBottomOf="@+id/tvPrimary" />
 
+
 </androidx.constraintlayout.widget.ConstraintLayout>
