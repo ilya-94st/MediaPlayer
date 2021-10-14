@@ -66,11 +66,14 @@ class MainViewModel @Inject constructor(private var musicServiceConnection: Musi
         musicServiceConnection.transportController.seekTo(position)
     }
 
+    //  проигрователь
     fun playOrToggleSong(mediaItem: Song, toggle: Boolean = false) {
+        // проверяем дествительно ли наш плеер подготовлен
         val isPrepared = playbackState.value?.isPrepared ?: false
         if (isPrepared && mediaItem.mediaId == curPlaySong.value?.getString(METADATA_KEY_MEDIA_ID)){
             playbackState.value?.let{playbackState->
                 when{
+                    // состоянии проигрования музыки
                     playbackState.isPrepared -> if(toggle) musicServiceConnection.transportController.pause()
                     playbackState.isEnabledPlaying -> musicServiceConnection.transportController.play()
                     else -> Unit

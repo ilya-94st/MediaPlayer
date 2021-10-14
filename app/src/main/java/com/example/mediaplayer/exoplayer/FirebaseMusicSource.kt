@@ -24,7 +24,7 @@ class FirebaseMusicSource @Inject constructor(var musicDatabase: MusicDatabase) 
     var songs = emptyList<MediaMetadataCompat>()
 
     // функция по считыванию данных из firebase
-    suspend fun fetchMediaData() = withContext(Dispatchers.IO){ // функция которая получает все объекты из firebase
+    suspend fun fetchMediaData() = withContext(Dispatchers.Main){ // функция которая получает все объекты из firebase
 state = State.STATE_INITIALIZING // устанавливаем состояние на иницилизирование т.к наша музыка будет загружаться
         val allSongs = musicDatabase.getAllSongs()
         songs = allSongs.map {song->

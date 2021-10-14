@@ -22,7 +22,6 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 private const val SERVICE_TAG = "music_service"
-@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class MusicServices: MediaBrowserServiceCompat()  { // унаследуемся от специального класа который поможет создать список песен
 

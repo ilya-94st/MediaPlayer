@@ -35,7 +35,7 @@ class MusicServiceConnection(context: Context) {
     fun curPlaySong() : LiveData<MediaMetadataCompat?> {
         return _curPlaySong
     }
-
+// живые данные текущего состояния воспроизведения музыки
     private var _playBackState: MutableLiveData<PlaybackStateCompat?> = MutableLiveData()
 
     fun playbackState() : LiveData<PlaybackStateCompat?> {

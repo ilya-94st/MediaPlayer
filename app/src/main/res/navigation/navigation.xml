@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/songFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/songFragment"
-        android:name="com.example.mediaplayer.SongFragment"
+        android:name="com.example.mediaplayer.fragments.SongFragment"
         android:label="fragment_song"
         tools:layout="@layout/fragment_song" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.mediaplayer.HomeFragment"
+        android:name="com.example.mediaplayer.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
 </navigation>
