@@ -63,6 +63,7 @@
 
     <ImageView
         android:id="@+id/ivPlayPauseDetail"
+        android:src="@drawable/play"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginTop="32dp"
@@ -73,6 +74,7 @@
 
     <ImageView
         android:id="@+id/ivSkipPrevious"
+        android:src="@drawable/previus"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginEnd="16dp"
@@ -83,6 +85,7 @@
 
     <ImageView
         android:id="@+id/ivSkip"
+        android:src="@drawable/next"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="16dp"

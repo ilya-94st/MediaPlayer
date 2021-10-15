@@ -5,6 +5,10 @@
     android:id="@+id/navigation"
     app:startDestination="@id/homeFragment">
 
+    <action android:id="@+id/globalActionToSongFragment"
+        app:destination="@+id/songFragment"
+        />
+
     <fragment
         android:id="@+id/songFragment"
         android:name="com.example.mediaplayer.fragments.SongFragment"

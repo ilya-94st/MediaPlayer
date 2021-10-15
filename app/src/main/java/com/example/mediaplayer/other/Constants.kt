@@ -11,4 +11,6 @@ const val NOTIFICATION_CHANNEL_ID ="music_notification"
 
     const val NETWORK_ERROR = "network_error"
 
+    const val UPDATE_INTERVAL_SONG = 100L
+
 }
